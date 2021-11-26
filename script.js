@@ -1,10 +1,10 @@
 // Создание переменных
 const title = 'jsCourse';
-let screens = 'Простые, Сложные, Интерактивные';
-let screenPrice = 500;
-let rollback = 24;
-let fullPrice = 30000;
-let adaptive = true;
+const screens = 'Простые, Сложные, Интерактивные';
+const screenPrice = 500;
+const rollback = 24;
+const fullPrice = 30000;
+const adaptive = true;
 
 // Вывод типа переменных в консоль
 console.log(typeof title);
