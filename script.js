@@ -1,13 +1,26 @@
 // Создание переменных
-let title;
-let screens;
-let screenPrice;
-let rollback;
-let fullPrice;
-let adaptive;
+const title = 'jsCourse';
+let screens = 'Простые, Сложные, Интерактивные';
+let screenPrice = 500;
+let rollback = 24;
+let fullPrice = 30000;
+let adaptive = true;
 
-// Вывод сообщения в alert
-alert('Hello, world');
+// Вывод типа переменных в консоль
+console.log(typeof title);
+console.log(typeof fullPrice);
+console.log(typeof adaptive);
 
-// Вывод сообщения в консоль
-console.log('Hi, I am a noob in JS');
+// Вывод длины строки
+console.log(screens.length);
+
+// Примеры конкатенации
+console.log('Стоимость верстки экранов: ' + screenPrice + ' рублей');
+console.log('Стоимость разработки сайта: '  +fullPrice + ' рублей');
+
+// Приведение символов строки к нижнему регистру
+// и разбиение ее на массив (содержит один элемент - всю строку)
+console.log(screens.toLowerCase().split());
+
+// Умножение чисел
+console.log(fullPrice * (rollback/100));
