@@ -17,7 +17,7 @@ const fullPrice = screenPrice + servicePrice1 + servicePrice2;
 
 // Вычисление стоимости с учетом отката
 const rollback = 24;
-const servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback/100)) );
+const servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback / 100)) );
 console.log(servicePercentPrice);
 
 // Конструкция условий
@@ -49,4 +49,4 @@ console.log('Стоимость разработки сайта: '  +fullPrice +
 console.log(screens.toLowerCase().split());
 
 // Умножение чисел
-console.log(fullPrice * (rollback/100));
+console.log(fullPrice * (rollback / 100));
