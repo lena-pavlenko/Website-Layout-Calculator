@@ -1,52 +1,63 @@
 'use strict';
 
-// Запрашивание у пользователя основных данных
+// Объявление переменных
 const title = prompt('Как называется ваш проект?');
 const screens = prompt('Какие типы экранов нужно разработать?');
 const screenPrice = +prompt('Сколько будет стоить данная работа?');
 const adaptive = confirm('Нужен ли адаптив на сайте?');
-
-// Запрашивание дополнительной информации
 const service1 = prompt('Какой дополнительный тип услуги нужен?');
 const servicePrice1 = +prompt('Сколько это будет стоить?');
 const service2 = prompt('Какой дополнительный тип услуги нужен?');
 const servicePrice2 = +prompt('Сколько это будет стоить?');
-
-// Вычисление итоговой стоимости
-const fullPrice = screenPrice + servicePrice1 + servicePrice2;
-
-// Вычисление стоимости с учетом отката
 const rollback = 24;
-const servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback / 100)) );
-console.log(servicePercentPrice);
 
-// Конструкция условий
-if (fullPrice >= 30000) {
-    console.log('Даем скидку в 10%');
-} else if (fullPrice > 15000 && fullPrice < 30000) {
-    console.log('Даем скидку в 5%');
-} else if (fullPrice <= 15000 && fullPrice > 0) {
-    console.log('Скидка не предусмотрена');
-} else if (fullPrice <= 0) {
-    console.log('Что-то пошло не так');
+// Объявление функции для определения типа переменной
+const showTypeOf = function(variable) {
+    console.log(variable, typeof variable);
+}
+// Объявление функции, определяющей сообщение о скидке
+const getRollbackMessage = function(price) {
+    if (price >= 30000) {
+        return 'Даем скидку в 10%';
+    }
+    if (price > 15000 && price < 30000) {
+        return 'Даем скидку в 5%';
+    }
+    if (price <= 15000 && price > 0) {
+        return 'Скидка не предусмотрена';
+    }
+    if (price <= 0) {
+        return 'Что-то пошло не так';
+    }
+}
+// Объявление функции для подсчета суммы доп.услуг
+const getAllServicePrices = function(extra1, extra2) {
+    return extra1 + extra2;
+}
+// Объявление функции для подсчета полной стоимости
+function getFullPrice(myScreenPrice, allPrice) {
+    return myScreenPrice + allPrice;
+}
+// Объявление функции для форматирования текста заголовка
+const getTitle = function(myTitle) {
+    myTitle = myTitle.trim();
+    return myTitle[0].toUpperCase() + myTitle.slice(1).toLowerCase();
+}
+// Объявление функции для подсчета стоимости с учетом отката
+const getServicePercentPrices = function(myFullPrice, myRollback) {
+    return Math.ceil(myFullPrice - (myFullPrice * (myRollback / 100)) );
 }
 
+// Функциональный блок
+const allServicePrices = getAllServicePrices(servicePrice1, servicePrice2); // Узнаем сумму за доп.услуги
+const fullPrice = getFullPrice(screenPrice, allServicePrices);              // Узнаем полную стоимость
+const servicePercentPrice = getServicePercentPrices(fullPrice, rollback);   // Узнаем стоимость с учетом отката
 
-// Вывод типа переменных в консоль
-console.log(typeof title);
-console.log(typeof fullPrice);
-console.log(typeof adaptive);
+// Вывод типа переменных
+showTypeOf(title);
+showTypeOf(fullPrice);
+showTypeOf(adaptive);
 
-// Вывод длины строки
-console.log(screens.length);
-
-// Примеры конкатенации
-console.log('Стоимость верстки экранов: ' + screenPrice + ' рублей');
-console.log('Стоимость разработки сайта: '  +fullPrice + ' рублей');
-
-// Приведение символов строки к нижнему регистру
-// и разбиение ее на массив (содержит один элемент - всю строку)
-console.log(screens.toLowerCase().split());
-
-// Умножение чисел
-console.log(fullPrice * (rollback / 100));
+console.log(screens.split()); // Вывод строки в виде массива
+console.log(getRollbackMessage(fullPrice)); // Вывод полной стоимости
+console.log(servicePercentPrice); // Вывод стоимости с учетом отката
