@@ -105,6 +105,6 @@ showTypeOf(title);
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
 
-console.log(screens.split()); // Вывод строки в виде массива
+console.log(screens.split(', ')); // Вывод строки в виде массива
 console.log(getRollbackMessage(fullPrice)); // Вывод полной стоимости
 console.log(servicePercentPrice); // Вывод стоимости с учетом отката
