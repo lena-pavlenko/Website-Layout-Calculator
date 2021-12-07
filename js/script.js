@@ -1,5 +1,42 @@
 'use strict';
 
+// Получение переменных
+
+// Заголовок
+const title = document.getElementsByTagName('h1')[0];
+
+// Кнопки
+const handlerBtns = document.getElementsByClassName('handler_btn');
+let [btnStart, btnReset] = handlerBtns;
+
+// Кнопка +
+const screenBtn = document.querySelector('.screen-btn');
+
+// Инпуты для доп услуг
+const otherItems = document.querySelectorAll('.other-items');
+let percentItem = [];
+let numberItem = [];
+for (let i = 0; i < otherItems.length; i++) {
+    if (otherItems[i].classList.contains('percent')) {
+        percentItem.push(otherItems[i]);
+    }
+    if (otherItems[i].classList.contains('number')) {
+        numberItem.push(otherItems[i]);
+    }
+}
+
+// Инпут range
+const inputRange = document.querySelector('.rollback input[type="range"]');
+// Спан 
+const spanRange = document.querySelector('.rollback .range-value');
+
+// Инпуты справа
+const totalInputs = document.getElementsByClassName('total-input');
+let [totalInput1, totalInput2, totalInput3, totalInput4, totalInput5] = totalInputs;
+
+// Экраны
+let screen = document.querySelectorAll('.screen');
+
 const appData = {
     title: '',
     screens: [],
@@ -119,4 +156,4 @@ const appData = {
     }
 };
 
-appData.start();
+// appData.start();
