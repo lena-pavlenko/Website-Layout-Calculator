@@ -56,7 +56,7 @@ const appData = {
             } while (!appData.isNumber(price));
 
             // Запись каждого значения в объект
-            appData.services[name + '_' + i] = +price;
+            appData.services[`${name}_${i}`] = +price;
         }
 
         appData.adaptive = confirm('Нужен ли адаптив на сайте?');
