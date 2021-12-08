@@ -14,16 +14,8 @@ const screenBtn = document.querySelector('.screen-btn');
 
 // Инпуты для доп услуг
 const otherItems = document.querySelectorAll('.other-items');
-let percentItem = [];
-let numberItem = [];
-for (let i = 0; i < otherItems.length; i++) {
-    if (otherItems[i].classList.contains('percent')) {
-        percentItem.push(otherItems[i]);
-    }
-    if (otherItems[i].classList.contains('number')) {
-        numberItem.push(otherItems[i]);
-    }
-}
+const percentItem = document.querySelectorAll('.percent');
+const numberItem = document.querySelectorAll('.number');
 
 // Инпут range
 const inputRange = document.querySelector('.rollback input[type="range"]');
