@@ -13,9 +13,9 @@ let [btnStart, btnReset] = handlerBtns;
 const screenBtn = document.querySelector('.screen-btn');
 
 // Инпуты для доп услуг
-const otherItems = document.querySelectorAll('.other-items');
-const percentItem = document.querySelectorAll('.percent');
-const numberItem = document.querySelectorAll('.number');
+const percentItem = document.querySelectorAll('.other-items.percent');
+const numberItem = document.querySelectorAll('.other-items.number');
+console.log(percentItem, numberItem)
 
 // Инпут range
 const inputRange = document.querySelector('.rollback input[type="range"]');
@@ -23,8 +23,14 @@ const inputRange = document.querySelector('.rollback input[type="range"]');
 const spanRange = document.querySelector('.rollback .range-value');
 
 // Инпуты справа
-const totalInputs = document.getElementsByClassName('total-input');
-let [totalInput1, totalInput2, totalInput3, totalInput4, totalInput5] = totalInputs;
+const totalInputLayout = document.getElementsByClassName('total-input')[0];
+const totalInputScreen = document.getElementsByClassName('total-input')[1];
+const totalInputServ = document.getElementsByClassName('total-input')[2];
+const totalInputAll = document.getElementsByClassName('total-input')[3];
+const totalInputRollback = document.getElementsByClassName('total-input')[4];
+
+console.log(totalInputLayout, totalInputScreen, totalInputServ, totalInputAll, totalInputRollback)
+
 
 // Экраны
 let screen = document.querySelectorAll('.screen');
