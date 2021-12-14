@@ -28,8 +28,14 @@ const totalInputServ = document.getElementsByClassName('total-input')[2];
 const totalInputAll = document.getElementsByClassName('total-input')[3];
 const totalInputRollback = document.getElementsByClassName('total-input')[4];
 
+
+
 // Экраны
 let screen = document.querySelectorAll('.screen');
+
+// Блоки для CMS
+const cmsInput = document.getElementById('cms-open');
+const cmsHidden = document.querySelector('.hidden-cms-variants');
 
 const appData = {
     screens: [],
@@ -44,13 +50,39 @@ const appData = {
     serviceRollbackPrice: 0,
     count: 0,
     isOk: true,
+    inputCmsValue: 0,
+    cmsPercent: 0,
 
     init() {
         this.addTitle();
-        btnStart.addEventListener('click', this.checkValues);
-        btnReset.addEventListener('click', this.reset)
-        screenBtn.addEventListener('click', this.addScreenBlock);
-        inputRange.addEventListener('input', this.getRollback)
+        cmsInput.addEventListener('change', this.addCms.bind(this));
+        btnStart.addEventListener('click', this.checkValues.bind(this));
+        btnReset.addEventListener('click', this.reset.bind(this));
+        screenBtn.addEventListener('click', this.addScreenBlock.bind(this));
+        inputRange.addEventListener('input', this.getRollback.bind(this));
+    },
+
+    // Добавление CMS
+    addCms() {
+        cmsHidden.style.display = 'flex'; // Показ скрытого блока при клике на 'CMS'
+
+        // Получение необходимых элементов
+        const inputHiddenWrap = cmsHidden.querySelector('.main-controls__input');
+        const inputHidden = cmsHidden.querySelector('#cms-other-input');
+        const select = document.querySelector('#cms-select');
+
+        //событие выбора CMS
+        select.addEventListener('change', () => {
+            if (select.options[select.selectedIndex].value === 'other') {
+                inputHiddenWrap.style.display = 'flex'; // Показ скрытого инпута
+                inputHidden.value = 0; // Обнуление инпута
+            }
+            // wordpress
+            if (select.options[select.selectedIndex].value === '50') {
+                inputHiddenWrap.style.display = 'none'; // Скрытие инпута, если WP
+                inputHidden.value = 50; // Значение в инпуте = 50 (%)
+            }
+        })
     },
 
     // Добавляем заголовок для вкладки
@@ -85,12 +117,12 @@ const appData = {
             const inputScreen = screen.querySelector('input'); // Получаем инпут
             const selectName = select.options[select.selectedIndex].textContent; // Получаем текст из выбранной опции селекта
             
-            if (selectName === 'Тип экранов' || !appData.isNumber(inputScreen.value)) {
+            if (selectName === 'Тип экранов' || !this.isNumber(inputScreen.value)) {
                 this.isOk = false;
             }
         })
         if (this.isOk) {
-            appData.start();
+            this.start();
         } else {
             alert('Заполни поля')
         }
@@ -99,12 +131,12 @@ const appData = {
     // Меняем значения ползунком
     getRollback() {
         spanRange.textContent = inputRange.value + '%';
-        appData.rollback = +inputRange.value;
+        this.rollback = +inputRange.value;
 
         // Проверяем, если верстка уже рассчитана, то ползунок влияет на расчет стоимости
         if(totalInputLayout.value !== '0') {
-            appData.serviceRollbackPrice = Math.ceil(appData.fullPrice - (appData.fullPrice * (appData.rollback / 100)) );
-            totalInputRollback.value = appData.serviceRollbackPrice;
+            this.serviceRollbackPrice = Math.ceil(this.fullPrice - (this.fullPrice * (this.rollback / 100)) );
+            totalInputRollback.value = this.serviceRollbackPrice;
         }
     },
 
@@ -127,10 +159,16 @@ const appData = {
             );
             this.count += +inputScreen.value;
 
+            // Отключение селектов и инпутов
             select.disabled = true;
             inputScreen.disabled = true;
             btnStart.style.display = 'none';
             btnReset.style.display = 'block';
+
+            const selectCMS = document.querySelector('#cms-select');
+            const inputHidden = cmsHidden.querySelector('#cms-other-input');
+            selectCMS.disabled = true;
+            inputHidden.disabled = true;
         })
     },
 
@@ -165,7 +203,14 @@ const appData = {
             if(check.checked) {
                 this.servicesNumber[label.textContent] = +input.value;
             }
-        })  
+        })
+
+        // Запись процента CMS в свойство объекта
+        const cmsValue = cmsHidden.querySelector('#cms-other-input').value;
+
+        if (this.isNumber(cmsValue)){
+            this.cmsPercent = +cmsValue;
+        }
     },
 
     // Подсчет суммы за экраны и за доп.сервисы
@@ -188,19 +233,78 @@ const appData = {
         // Подсчет суммы за экраны и доп услуги
         this.fullPrice = this.screenPrice + this.servicePricesNumber + this.servicePricesPercent;
 
+        // Подсчет суммы за CMS
+        this.inputCmsValue = this.fullPrice * (this.cmsPercent / 100);
+
+        // Подсчет суммы за экраны и ВСЕ доп.услуги
+        this.fullPrice += this.inputCmsValue;
+
         // Подсчет стоимости с учетом отката
         this.serviceRollbackPrice = Math.ceil(this.fullPrice - (this.fullPrice * (this.rollback / 100)) );
     },
 
+    // Сброс расчетов
     reset() {
+
+        // Сброс стилей кнопок
         btnReset.style.display = 'none';
         btnStart.style.display = 'block';
 
+        // Отключение инпута и селекта, удаление селектов
         screen = document.querySelectorAll('.screen');
+        screen.forEach((item, index) => {
+            let select = item.querySelector('select');
+            let inputScreen = item.querySelector('input');
 
-        if (screen[screen.length - 1] !== 0) {
-            screen[screen.length - 1].remove();
-        }
+            // Отключение
+            select.disabled = false;
+            inputScreen.disabled = false;
+
+            // Возвращение к первой опции
+            select.selectedIndex = 0; 
+            
+            // Очистка инпута
+            inputScreen.value = '';
+
+            // Удаление лишних селектов
+            if (index !== 0) {
+                item.remove();
+            }
+        })
+
+        // Очистка чекбоксов
+        const checkbox = document.querySelectorAll('.custom-checkbox');
+        checkbox.forEach(item => {
+            item.checked = false;
+        })
+
+        // Скрытие блока CMS
+        cmsHidden.style.display = 'none';
+
+        // Сброс ползунка
+        inputRange.value = '0';
+        spanRange.textContent = inputRange.value + '%';
+
+        // Сброс всех значений
+        totalInputLayout.value = '0';
+        totalInputServ.value = '0';
+        totalInputAll.value = '0';
+        totalInputRollback.value = '0';
+        totalInputScreen.value = '0';
+        this.screens = [];
+        this.screenPrice = 0;
+        this.adaptive = true;
+        this.rollback = 0;
+        this.servicesPercent = {};
+        this.servicesNumber = {};
+        this.servicePricesPercent = 0;
+        this.servicePricesNumber = 0;
+        this.fullPrice = 0;
+        this.serviceRollbackPrice = 0;
+        this.count = 0;
+        this.isOk = true;
+        this.inputCmsValue = 0;
+        this.wordpressValue = 0;
     },
 
     // Проверка на число
