@@ -86,6 +86,9 @@ const appData = {
             if (select.options[select.selectedIndex].value === '50') {
                 inputHiddenWrap.style.display = 'none'; // Скрытие инпута, если WP
                 inputHidden.value = 50; // Значение в инпуте = 50 (%)
+            } 
+            if (select.options[select.selectedIndex].value === '') {
+                inputHiddenWrap.style.display = 'none'; 
             }
         })
     },
@@ -181,6 +184,7 @@ const appData = {
     addScreenBlock() {
         screen = document.querySelectorAll('.screen'); // Заново получаем новый нодлист
         const cloneScreen = screen[0].cloneNode(true); // Клонируем первый элемент
+        cloneScreen.querySelector('input').value = ''; // Очищаем инпут
         screen[screen.length - 1].after(cloneScreen); // Добавляем его после последнего элемента
     },
 
@@ -285,6 +289,15 @@ const appData = {
 
         // Скрытие блока CMS
         cmsHidden.style.display = 'none';
+        const selectCms = cmsHidden.querySelector('select');
+        selectCms.disabled = false;
+        cmsHidden.querySelector('input').disabled = false;
+        cmsHidden.querySelector('input').value = '';
+        selectCms.selectedIndex = 0;
+        const inputHiddenWrap = cmsHidden.querySelector('.main-controls__input');
+        inputHiddenWrap.style.display = 'none';
+        
+
 
         // Сброс ползунка
         inputRange.value = '0';
