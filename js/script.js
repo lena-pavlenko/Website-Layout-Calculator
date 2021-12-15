@@ -64,8 +64,13 @@ const appData = {
 
     // Добавление CMS
     addCms() {
-        cmsHidden.style.display = 'flex'; // Показ скрытого блока при клике на 'CMS'
-
+        // Показ скрытого блока при клике на 'CMS'
+        if (cmsInput.checked === true) {
+            cmsHidden.style.display = 'flex';
+        } else {
+            cmsHidden.style.display = 'none';
+        } 
+         
         // Получение необходимых элементов
         const inputHiddenWrap = cmsHidden.querySelector('.main-controls__input');
         const inputHidden = cmsHidden.querySelector('#cms-other-input');
@@ -314,7 +319,7 @@ const appData = {
 
     // Логи
     logger() {
-        console.log(appData);
+        
     }
 };
 
