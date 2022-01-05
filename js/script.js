@@ -80,7 +80,7 @@ const appData = {
         select.addEventListener('change', () => {
             if (select.options[select.selectedIndex].value === 'other') {
                 inputHiddenWrap.style.display = 'flex'; // Показ скрытого инпута
-                inputHidden.value = 0; // Обнуление инпута
+                inputHidden.value = ''; // Обнуление инпута
             }
             // wordpress
             if (select.options[select.selectedIndex].value === '50') {
@@ -332,7 +332,6 @@ const appData = {
 
     // Логи
     logger() {
-        
     }
 };
 
